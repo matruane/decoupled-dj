@@ -74,10 +74,17 @@
     }),
     methods: {
       handleSubmit: (e) => {
-        // eslint-disable-next-line
         const formData = new FormData(e.target);
 
-        const data = {};
+        const data = Object.fromEntries(formData);
+        data.items = [
+          {
+            quantity: formData.get("quantity"),
+            description: formData.get("description"),
+            price: formData.get("price"),
+            taxed: Boolean(formData.get("taxed"))
+          }
+        ];
 
         fetch("/billing/api/invoices/", {
           method: "POST",
